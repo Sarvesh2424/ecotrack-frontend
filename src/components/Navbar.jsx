@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="bg-green-600 text-white shadow-lg">
+    <nav className="bg-green-600 text-white shadow-2xl">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold">
+        <div className="flex justify-between items-center h-18">
+          <Link to="/" className="text-xl ml-2 font-bold">
             EcoTrack
           </Link>
           <div className="flex space-x-4">

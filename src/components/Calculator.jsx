@@ -41,42 +41,42 @@ function Calculator() {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow space-y-4"
+        className="bg-white p-6 rounded-2xl shadow-2xl space-y-4"
       >
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-black">
             Transportation (km/week)
             <input
               type="number"
               name="transportation"
               value={formData.transportation}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
             />
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-black text-sm font-medium">
             Electricity Usage (kWh/month)
             <input
               type="number"
               name="electricity"
               value={formData.electricity}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
             />
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-black">
             Diet Type
             <select
               name="diet"
               value={formData.diet}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-1 text-gray-700 p-2 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
             >
               <option value="mixed">Mixed Diet</option>
               <option value="vegetarian">Vegetarian</option>
@@ -86,28 +86,28 @@ function Calculator() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-black">
             Waste Production (kg/week)
             <input
               type="number"
               name="waste"
               value={formData.waste}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 block w-full text-gray-700 rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
             />
           </label>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer"
         >
           Calculate
         </button>
       </form>
 
       {result && (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow">
+        <div className="mt-6 bg-white p-6 rounded-2xl shadow-2xl">
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             Your Carbon Footprint
           </h2>
