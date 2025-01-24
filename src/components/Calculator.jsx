@@ -12,7 +12,9 @@ function Calculator() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simple calculation example (in reality, would be more complex)
+    if (!formData.transportation || !formData.electricity || !formData.waste) {
+      return alert("Please fill all the fields");
+    }
     const total =
       (parseFloat(formData.transportation) || 0) * 0.14 +
       (parseFloat(formData.electricity) || 0) * 0.42 +
@@ -35,7 +37,7 @@ function Calculator() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
+      <h1 className="text-3xl font-bold text-gray-800 mt-18 mb-6">
         Carbon Footprint Calculator
       </h1>
 
@@ -100,7 +102,7 @@ function Calculator() {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer"
+          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
         >
           Calculate
         </button>

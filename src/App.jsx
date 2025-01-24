@@ -3,7 +3,9 @@ import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import Calculator from './components/Calculator';
 import Leaderboard from './components/Leaderboard';
-import Rewards from './components/Rewards';
+import EcoAi from './components/EcoAi';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/rewards" element={<Rewards />} />
+            <Route path="/ecoai" element={<EcoAi />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </div>
