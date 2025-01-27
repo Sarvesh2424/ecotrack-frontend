@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ login }) => {
   const [loginFormDetails, setLoginFormDetails] = useState({
     email: "",
     password: "",
@@ -10,7 +10,12 @@ const Login = () => {
   return (
     <div className="max-w-2xl mx-auto flex flex-col items-center">
       <h1 className="text-3xl font-bold text-gray-800 mt-18 mb-6">Login</h1>
-      <form className="bg-white w-96 p-6 rounded-2xl shadow-2xl space-y-4">
+      <form
+        onSubmit={() => {
+          login(loginFormDetails.email, loginFormDetails.password);
+        }}
+        className="bg-white w-96 p-6 rounded-2xl shadow-2xl space-y-4"
+      >
         <label className="block text-sm font-medium text-black">
           Email:
           <input
@@ -41,6 +46,9 @@ const Login = () => {
         </label>
         <button
           type="submit"
+          onClick={() =>
+            login(loginFormDetails.email, loginFormDetails.password)
+          }
           className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
         >
           Login

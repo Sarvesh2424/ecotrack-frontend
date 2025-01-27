@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 function Navbar() {
   return (
@@ -18,8 +19,8 @@ function Navbar() {
             <Link to="/leaderboard" className="hover:text-green-100">
               Leaderboard
             </Link>
-            <Link to="/ecoai" className="hover:text-green-100">
-              EcoAI
+            <Link to="/history" className="hover:text-green-100">
+              History
             </Link>
             <Link to="/login" className="hover:text-green-100">
               <button className="w-24 py-2 bg-black text-white rounded-xl hover:bg-gray-700 hover:cursor-pointer transition-colors">
@@ -29,6 +30,11 @@ function Navbar() {
             <Link to="/register" className="hover:text-green-100">
               <button className="w-24 py-2 bg-black text-white rounded-xl hover:bg-gray-700 hover:cursor-pointer transition-colors">
                 Register
+              </button>
+            </Link>
+            <Link to="/profile" className="hover:text-green-100">
+              <button className="w-10 h-10 py-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors flex items-center">
+                <UserCircleIcon />
               </button>
             </Link>
           </div>

@@ -58,7 +58,7 @@ const Register = () => {
           type="submit"
           className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
         >
-          Login
+          Register
         </button>
       </form>
       <p className="mt-4 text-sm">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Calculator() {
+function Calculator({ updateFootprint }) {
   const [formData, setFormData] = useState({
     transportation: "",
     electricity: "",
@@ -26,6 +26,7 @@ function Calculator() {
       (parseFloat(formData.waste) || 0) * 0.09;
 
     setResult(total.toFixed(2));
+    updateFootprint(total.toFixed(2));
   };
 
   const handleChange = (e) => {

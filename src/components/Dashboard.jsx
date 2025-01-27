@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { PencilIcon, CheckIcon } from "@heroicons/react/24/outline";
 
 ChartJS.register(
   CategoryScale,
@@ -21,20 +22,15 @@ ChartJS.register(
   Legend
 );
 
-function Dashboard() {
+function Dashboard({
+  currectFootPrint,
+  monthlyGoal,
+  change,
+  updateMonthlyGoal,
+  carbonData,
+}) {
+  const [goal, setGoal] = useState(monthlyGoal);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [monthlyGoal, setMonthlyGoal] = useState(100);
-  const [carbonData, setCarbonData] = useState({
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "Carbon Footprint (kg CO2)",
-        data: [250, 230, 220, 205, 190, 180],
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-      },
-    ],
-  });
 
   return (
     <div className="space-y-6">
@@ -43,7 +39,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-2">Current Footprint</h2>
-          <p className="text-3xl text-green-600">180 kg CO2</p>
+          <p className="text-3xl text-green-600">{currectFootPrint} kg CO2</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-md">
@@ -54,19 +50,20 @@ function Dashboard() {
                 onClick={() => {
                   setIsUpdating(true);
                 }}
-                className="w-24 py-2 bg-black text-white rounded-xl hover:bg-gray-700 hover:cursor-pointer transition-colors"
+                className="p-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors"
               >
-                Update
+                <PencilIcon className="w-5 h-5 text-white" />
               </button>
             )}
             {isUpdating && (
               <button
                 onClick={() => {
                   setIsUpdating(false);
+                  updateMonthlyGoal(goal);
                 }}
-                className="w-24 py-2 bg-black text-white rounded-xl hover:bg-gray-700 hover:cursor-pointer transition-colors"
+                className="p-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors"
               >
-                Set
+                <CheckIcon className="w-5 h-5 text-white" />
               </button>
             )}
           </div>
@@ -77,8 +74,8 @@ function Dashboard() {
             <div>
               <input
                 type="number"
-                value={monthlyGoal}
-                onChange={(e) => setMonthlyGoal(e.target.value)}
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
                 className="text-3xl w-40"
               />
             </div>
@@ -87,7 +84,15 @@ function Dashboard() {
 
         <div className="bg-white p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-2">Reduction</h2>
-          <p className="text-3xl text-purple-600">-28%</p>
+          <p
+            className={
+              change > 0 ? "text-3xl text-red-600" : "text-3xl text-green-600"
+            }
+          >
+            {change > 0 && <>&uarr; {Math.abs(change)} %</>}
+            {change < 0 && <>&darr; {Math.abs(change)} %</>}
+            {change === 0 && <> {Math.abs(change)} %</>}
+          </p>
         </div>
       </div>
 
