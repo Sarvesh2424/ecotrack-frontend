@@ -48,7 +48,7 @@ function Calculator({ updateFootprint }) {
       >
         <div>
           <label className="block text-sm font-medium text-black">
-            Transportation (km/week)
+            Transportation (km/day)
             <input
               type="number"
               name="transportation"
@@ -61,7 +61,7 @@ function Calculator({ updateFootprint }) {
 
         <div>
           <label className="block text-black text-sm font-medium">
-            Electricity Usage (kWh/month)
+            Electricity Usage (kWh/day)
             <input
               type="number"
               name="electricity"
@@ -90,7 +90,7 @@ function Calculator({ updateFootprint }) {
 
         <div>
           <label className="block text-sm font-medium text-black">
-            Waste Production (kg/week)
+            Waste Production (kg/day)
             <input
               type="number"
               name="waste"

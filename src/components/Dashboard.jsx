@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { PencilIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, CheckIcon, TrophyIcon } from "@heroicons/react/24/outline";
 
 ChartJS.register(
   CategoryScale,
@@ -24,13 +24,14 @@ ChartJS.register(
 
 function Dashboard({
   currectFootPrint,
-  monthlyGoal,
+  DailyGoal,
   change,
-  updateMonthlyGoal,
+  updateDailyGoal,
   carbonData,
 }) {
-  const [goal, setGoal] = useState(monthlyGoal);
+  const [goal, setGoal] = useState(DailyGoal);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -38,13 +39,29 @@ function Dashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Current Footprint</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold mb-2">Current Footprint</h2>
+            {currectFootPrint < DailyGoal && (
+              <div
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                className="relative"
+              >
+                <TrophyIcon className="w-5 h-5 hover:cursor-pointer" />
+                {showTooltip && (
+                  <div className="absolute bg-gray-700 text-white text-sm rounded-md p-1 bottom-6 left-4">
+                    Goal achieved!
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
           <p className="text-3xl text-green-600">{currectFootPrint} kg CO2</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-md">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold mb-2">Monthly Goal</h2>
+            <h2 className="text-xl font-semibold mb-2">Daily Goal</h2>
             {!isUpdating && (
               <button
                 onClick={() => {
@@ -59,7 +76,7 @@ function Dashboard({
               <button
                 onClick={() => {
                   setIsUpdating(false);
-                  updateMonthlyGoal(goal);
+                  updateDailyGoal(goal);
                 }}
                 className="p-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors"
               >
@@ -68,7 +85,7 @@ function Dashboard({
             )}
           </div>
           {!isUpdating && (
-            <p className="text-3xl text-blue-600">{monthlyGoal} kg CO2</p>
+            <p className="text-3xl text-blue-600">{DailyGoal} kg CO2</p>
           )}
           {isUpdating && (
             <div>
@@ -115,6 +132,22 @@ function Dashboard({
           <li className="flex items-center">
             <span className="text-green-500 mr-2">•</span>
             Reduce meat consumption and try plant-based alternatives
+          </li>
+          <li className="flex items-center">
+            <span className="text-green-500 mr-2">•</span>
+            Use solar panels or purchase renewable energy credits
+          </li>
+          <li className="flex items-center">
+            <span className="text-green-500 mr-2">•</span>
+            Use reusable bags, bottles, and containers
+          </li>
+          <li className="flex items-center">
+            <span className="text-green-500 mr-2">•</span>
+            Plant trees and support reforestation efforts
+          </li>
+          <li className="flex items-center">
+            <span className="text-green-500 mr-2">•</span>
+            Use energy-efficient devices and enable power-saving settings
           </li>
         </ul>
       </div>

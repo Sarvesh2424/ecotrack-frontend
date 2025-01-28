@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Calculator from "./components/Calculator";
@@ -14,13 +9,20 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import History from "./components/History";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [id, setId] = useState(null);
+  const [token, setToken] = useState(null);
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [footprints, setFootprints] = useState([]);
   const [currectFootPrint, setCurrentFootPrint] = useState(0.0);
-  const [monthlyGoal, setMonthlyGoal] = useState(100);
+  const [DailyGoal, setDailyGoal] = useState(100);
   const [change, setChange] = useState(0);
+  const [leaderboard, setLeaderboard] = useState(null);
   const [carbonData, setCarbonData] = useState({
     labels: [],
     datasets: [
@@ -34,64 +36,134 @@ function App() {
   });
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = jwtDecode(token);
+      setToken(token);
+      setUserName(user.name);
+      setEmail(user.email);
+      setId(user.id);
+    }
+
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://127.0.0.1:3000/footprint/6bd2cf47-6604-47f7-814b-53a0ce602484"
-      );
-      setFootprints(response.data);
-      setCurrentFootPrint(response.data[response.data.length - 1].footPrint);
+      if (id) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:3000/footprint/${id}`
+          );
+          if (response.data && response.data.length > 0) {
+            setFootprints(response.data);
+            setCurrentFootPrint(
+              response.data[response.data.length - 1].footPrint
+            );
+          } else {
+            console.error("No data found for footprints.");
+          }
+        } catch (error) {
+          console.error("Error fetching footprint data:", error);
+        }
+      }
     };
-    const fetchMonthlyGoal = async () => {
-      const response = await axios.get(
-        "http://127.0.0.1:3000/goal/6bd2cf47-6604-47f7-814b-53a0ce602484"
-      );
-      setMonthlyGoal(response.data[response.data.length - 1].goal);
+
+    const fetchDailyGoal = async () => {
+      if (id) {
+        try {
+          const response = await axios.get(`http://127.0.0.1:3000/goal/${id}`);
+          if (response.data && response.data.length > 0) {
+            setDailyGoal(response.data[response.data.length - 1].goal);
+          } else {
+            console.error("No data found for Daily goal.");
+          }
+        } catch (error) {
+          console.error("Error fetching Daily goal:", error);
+        }
+      }
     };
+
     const fetchCarbonData = async () => {
-      const response = await axios.get(
-        "http://127.0.0.1:3000/footprint/6bd2cf47-6604-47f7-814b-53a0ce602484"
-      );
-      const data = response.data.map((item) => item.footPrint);
-      const time = response.data.map((item) =>
-        new Date(item.date).toDateString()
-      );
-      setCarbonData({
-        labels: time,
-        datasets: [
-          {
-            label: "Carbon Footprint (kg CO2)",
-            data: data,
-            borderColor: "rgb(75, 192, 192)",
-            tension: 0.1,
-          },
-        ],
-      });
+      if (id) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:3000/footprint/${id}`
+          );
+          if (response.data && response.data.length > 0) {
+            const data = response.data.map((item) => item.footPrint);
+            const time = response.data.map((item) =>
+              new Date(item.date).toDateString()
+            );
+            setCarbonData({
+              labels: time,
+              datasets: [
+                {
+                  label: "Carbon Footprint (kg CO2)",
+                  data: data,
+                  borderColor: "rgb(75, 192, 192)",
+                  tension: 0.1,
+                },
+              ],
+            });
+          } else {
+            console.error("No data found for carbon data.");
+          }
+        } catch (error) {
+          console.error("Error fetching carbon data:", error);
+        }
+      }
     };
+
     const fetchReduction = async () => {
-      const response = await axios.get(
-        "http://127.0.0.1:3000/reduction/6bd2cf47-6604-47f7-814b-53a0ce602484"
-      );
-      setChange(response.data[response.data.length - 1].reduction);
+      if (id) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:3000/reduction/user/${id}`
+          );
+          if (response.data && response.data.length > 0) {
+            setChange(response.data[response.data.length - 1].reduction);
+          } else {
+            console.error("No data found for reduction.");
+          }
+        } catch (error) {
+          console.error("Error fetching reduction data:", error);
+        }
+      }
     };
+    const fetchLeaderBoard = async () => {
+      if (id) {
+        try {
+          const response = await axios.get("http://127.0.0.1:3000/leaderboard");
+          if (response.data && response.data.length > 0) {
+            setLeaderboard(response.data);
+          } else {
+            console.error("No data found for leaderboard.");
+          }
+        } catch (error) {
+          console.error("Error fetching leaderboard data:", error);
+        }
+      }
+    };
+
     fetchData();
-    fetchMonthlyGoal();
+    fetchDailyGoal();
     fetchCarbonData();
     fetchReduction();
-  }, []);
+    fetchLeaderBoard();
+  }, [id]);
 
   function updateFootPrint(footPrint) {
+    const fid = uuidv4();
     let newChange = 0;
     if (currectFootPrint !== 0) {
       newChange = ((footPrint - currectFootPrint) / currectFootPrint) * 100;
       axios.post("http://127.0.0.1:3000/reduction", {
-        userId: "6bd2cf47-6604-47f7-814b-53a0ce602484",
-        footprintId: footPrint.id,
+        userId: id,
+        footprintId: fid,
         reduction: newChange.toFixed(2),
       });
       setChange(newChange.toFixed(2));
     }
     axios.post("http://127.0.0.1:3000/footprint", {
-      userId: "6bd2cf47-6604-47f7-814b-53a0ce602484",
+      id: fid,
+      userId: id,
       date: Date.now(),
       footPrint,
     });
@@ -109,38 +181,101 @@ function App() {
     setCurrentFootPrint(footPrint);
   }
 
-  function updateMonthlyGoal(goal) {
+  function updateDailyGoal(goal) {
     axios.post("http://127.0.0.1:3000/goal", {
-      userId: "6bd2cf47-6604-47f7-814b-53a0ce602484",
+      userId: id,
       goal,
     });
-    setMonthlyGoal(goal);
+    setDailyGoal(goal);
   }
 
   function deleteFootprint(id) {
     axios.delete(`http://127.0.0.1:3000/footprint/${id}`);
-    setFootprints(footprints.filter((footprint) => footprint.id !== id));
+    axios.delete(`http://127.0.0.1:3000/reduction/${id}`);
+    const fetchData = async () => {
+      const response = await axios
+        .get(`http://127.0.0.1:3000/footprint/${id}`)
+        .catch(() => {
+          console.log("Error fetching data");
+        });
+      setFootprints(response.data);
+      setCurrentFootPrint(response.data[response.data.length - 1].footPrint);
+    };
+    const fetchDailyGoal = async () => {
+      const response = await axios
+        .get(`http://127.0.0.1:3000/goal/${id}`)
+        .catch(() => {
+          console.log("Error fetching data");
+        });
+      setDailyGoal(response.data[response.data.length - 1].goal);
+    };
+    const fetchCarbonData = async () => {
+      const response = await axios
+        .get(`http://127.0.0.1:3000/footprint/${id}`)
+        .catch(() => {
+          console.log("Error fetching data");
+        });
+      const data = response.data.map((item) => item.footPrint);
+      const time = response.data.map((item) =>
+        new Date(item.date).toDateString()
+      );
+      setCarbonData({
+        labels: time,
+        datasets: [
+          {
+            label: "Carbon Footprint (kg CO2)",
+            data: data,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1,
+          },
+        ],
+      });
+    };
+    const fetchReduction = async () => {
+      const response = await axios
+        .get(`http://127.0.0.1:3000/reduction/user/${id}`)
+        .catch(() => {
+          console.log("Error fetching data");
+        });
+      setChange(response.data[response.data.length - 1].reduction);
+    };
+    fetchData();
+    fetchDailyGoal();
+    fetchCarbonData();
+    fetchReduction();
   }
 
-  function login(email, password) {
-    axios
-      .post("http://127.0.0.1:3000/login", {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        const token = response.data.token;
-        console.log(token);
-        localStorage.setItem("token", token);
-        setUser(token[0]);
-        console.log(user);
+  async function login(email, password) {
+    try {
+      const response = await axios.post("http://127.0.0.1:3000/login", {
+        email,
+        password,
       });
+
+      if (response.data && response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        setIsLoggedIn(true);
+      } else {
+        throw new Error("Invalid login");
+      }
+    } catch (error) {
+      throw new Error("Invalid email or password");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    setToken(null);
+    setUserName("");
+    setEmail("");
+    setId(null);
   }
 
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
+        {window.location.pathname !== "/login" &&
+          window.location.pathname !== "/register" && <Navbar />}
         <div className="container mx-auto px-4 py-8">
           <Routes>
             <Route
@@ -148,9 +283,9 @@ function App() {
               element={
                 <Dashboard
                   currectFootPrint={currectFootPrint}
-                  monthlyGoal={monthlyGoal}
+                  DailyGoal={DailyGoal}
                   change={change}
-                  updateMonthlyGoal={updateMonthlyGoal}
+                  updateDailyGoal={updateDailyGoal}
                   carbonData={carbonData}
                 />
               }
@@ -159,15 +294,21 @@ function App() {
               path="/calculator"
               element={<Calculator updateFootprint={updateFootPrint} />}
             />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/login" element={<Login login={login} />} />
+            <Route path="/leaderboard" element={<Leaderboard leaderboard={leaderboard} />} />
+            <Route
+              path="/login"
+              element={<Login login={login} isLoggedIn={isLoggedIn} />}
+            />
             <Route path="/register" element={<Register />} />
             <Route
               path="/profile"
               element={
                 <Profile
-                  monthlyGoal={monthlyGoal}
-                  updateMonthlyGoal={updateMonthlyGoal}
+                  userName={userName}
+                  email={email}
+                  DailyGoal={DailyGoal}
+                  updateDailyGoal={updateDailyGoal}
+                  logout={logout}
                 />
               }
             />

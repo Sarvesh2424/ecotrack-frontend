@@ -4,9 +4,17 @@ import {
   CheckIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
-const Profile = ({ monthlyGoal, updateMonthlyGoal }) => {
-  const [goal, setGoal] = useState(monthlyGoal);
+const Profile = ({
+  userName,
+  email,
+  DailyGoal,
+  updateDailyGoal,
+  logout,
+}) => {
+  const navigate = useNavigate();
+  const [goal, setGoal] = useState(DailyGoal);
   const [isUpdating, setIsUpdating] = useState(false);
 
   return (
@@ -17,16 +25,16 @@ const Profile = ({ monthlyGoal, updateMonthlyGoal }) => {
       <div className="flex flex-col items-center gap-4">
         <div className="bg-white w-96 p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-2">Name</h2>
-          <p className="text-purple-600 text-3xl">Sarvesh</p>
+          <p className="text-purple-600 text-3xl">{userName}</p>
         </div>
         <div className="bg-white w-96 p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-2">Email</h2>
-          <p className="text-purple-600 text-3xl">sarvesh@gmail.com</p>
+          <p className="text-purple-600 text-3xl">{email}</p>
         </div>
         <div className="flex gap-4">
           <div className="bg-white w-96 p-6 rounded-xl shadow-md">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold mb-2">Monthly Goal</h2>
+              <h2 className="text-xl font-semibold mb-2">Daily Goal</h2>
               {!isUpdating && (
                 <button
                   onClick={() => {
@@ -41,7 +49,7 @@ const Profile = ({ monthlyGoal, updateMonthlyGoal }) => {
                 <button
                   onClick={() => {
                     setIsUpdating(false);
-                    updateMonthlyGoal(goal);
+                    updateDailyGoal(goal);
                   }}
                   className="p-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors"
                 >
@@ -50,7 +58,7 @@ const Profile = ({ monthlyGoal, updateMonthlyGoal }) => {
               )}
             </div>
             {!isUpdating && (
-              <p className="text-3xl text-blue-600">{monthlyGoal} kg CO2</p>
+              <p className="text-3xl text-blue-600">{DailyGoal} kg CO2</p>
             )}
             {isUpdating && (
               <div>
@@ -64,10 +72,13 @@ const Profile = ({ monthlyGoal, updateMonthlyGoal }) => {
             )}
           </div>
         </div>
-        <button className="bg-red-600 p-2 w-96 rounded-xl text-white hover:bg-red-500 hover:cursor-pointer">
-          Set new password
-        </button>
-        <button className="bg-red-600 p-2 w-96 rounded-xl text-white hover:bg-red-500 hover:cursor-pointer">
+        <button
+          onClick={() => {
+            logout();
+            navigate("/login");
+          }}
+          className="bg-red-600 p-2 w-96 rounded-xl text-white hover:bg-red-500 hover:cursor-pointer"
+        >
           <div className="flex justify-center items-center gap-2">
             <ArrowRightStartOnRectangleIcon className="w-5 h-5" /> Logout
           </div>
