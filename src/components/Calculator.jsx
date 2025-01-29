@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CalculatorIcon } from "@heroicons/react/24/outline";
 
 function Calculator({ updateFootprint }) {
   const [formData, setFormData] = useState({
@@ -103,9 +104,9 @@ function Calculator({ updateFootprint }) {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
+          className="w-full bg-green-600 flex items-center gap-2 justify-center text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
         >
-          Calculate
+          <CalculatorIcon className="w-5 h-5"/> <p>Calculate</p>
         </button>
       </form>
 
@@ -114,7 +115,7 @@ function Calculator({ updateFootprint }) {
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             Your Carbon Footprint
           </h2>
-          <p className="text-3xl text-green-600">{result} kg CO2e/week</p>
+          <p className="text-3xl text-green-600">{result} kg CO2e/day</p>
         </div>
       )}
     </div>

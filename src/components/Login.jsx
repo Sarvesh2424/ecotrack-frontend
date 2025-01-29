@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const Login = ({ login, isLoggedIn }) => {
   const navigate = useNavigate();
@@ -70,8 +71,9 @@ const Login = ({ login, isLoggedIn }) => {
           {invalid && <p className="text-red-500">Invalid email or password</p>}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
+            className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
           >
+            <CheckCircleIcon className="w-r h-5"/>
             Login
           </button>
         </form>
