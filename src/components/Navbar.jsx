@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
-function Navbar() {
+function Navbar({isLoggedIn}) {
   return (
     <nav className="bg-gradient-to-br from-green-500 to-green-300 w-full text-black shadow-xl fixed">
       <div className="container mx-auto px-4">
@@ -22,11 +22,16 @@ function Navbar() {
             <Link to="/history" className="hover:text-green-100">
               History
             </Link>
-            <Link to="/profile" className="hover:text-green-100">
-              <button className="w-10 h-10 py-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors flex items-center">
+            {isLoggedIn===true && <Link to="/profile" className="hover:text-green-100">
+              <button className="w-10 h-10 py-2 bg-black text-white rounded-full hover:bg-gray-700 hover:cursor-pointer transition-colors flex items-center justify-center">
                 <UserCircleIcon />
               </button>
-            </Link>
+            </Link>}
+            {!isLoggedIn && <Link to="/login" className="hover:text-green-100">
+              <button className="w-24 py-2 bg-black text-white rounded-2xl hover:bg-gray-700 hover:cursor-pointer transition-colors flex justify-center items-center">
+                Login
+              </button>
+            </Link>}
           </div>
         </div>
       </div>

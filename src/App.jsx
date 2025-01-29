@@ -43,6 +43,7 @@ function App() {
       setUserName(user.name);
       setEmail(user.email);
       setId(user.id);
+      setIsLoggedIn(true); // Set isLoggedIn to true if token exists
     }
 
     const fetchData = async () => {
@@ -265,6 +266,7 @@ function App() {
 
   function logout() {
     localStorage.removeItem("token");
+    setIsLoggedIn(false);
     setToken(null);
     setUserName("");
     setEmail("");
@@ -275,7 +277,9 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
         {window.location.pathname !== "/login" &&
-          window.location.pathname !== "/register" && <Navbar />}
+          window.location.pathname !== "/register" && (
+            <Navbar isLoggedIn={isLoggedIn} />
+          )}
         <div className="container mx-auto px-4 py-8">
           <Routes>
             <Route
@@ -294,7 +298,10 @@ function App() {
               path="/calculator"
               element={<Calculator updateFootprint={updateFootPrint} />}
             />
-            <Route path="/leaderboard" element={<Leaderboard leaderboard={leaderboard} />} />
+            <Route
+              path="/leaderboard"
+              element={<Leaderboard leaderboard={leaderboard} />}
+            />
             <Route
               path="/login"
               element={<Login login={login} isLoggedIn={isLoggedIn} />}
