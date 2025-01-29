@@ -43,7 +43,7 @@ function App() {
       setUserName(user.name);
       setEmail(user.email);
       setId(user.id);
-      setIsLoggedIn(true); // Set isLoggedIn to true if token exists
+      setIsLoggedIn(true);
     }
 
     const fetchData = async () => {
