@@ -77,7 +77,9 @@ function App() {
           );
           if (response.data && response.data.length > 0) {
             setDailyGoal(response.data[response.data.length - 1].goal);
+            console.log(DailyGoal);
           } else {
+            setDailyGoal(100)
             console.error("No data found for Daily goal.");
           }
         } catch (error) {
@@ -209,7 +211,9 @@ function App() {
   }
 
   function updateDailyGoal(goal) {
+    const gid = uuidv4();
     axios.post("https://backend-ecotrack-1.onrender.com/goal", {
+      id: gid,
       userId: id,
       goal,
     });
@@ -285,6 +289,7 @@ function App() {
       if (response.data && response.data.token) {
         localStorage.setItem("token", response.data.token);
         setIsLoggedIn(true);
+        setIsLoggingIn(false);
       } else {
         throw new Error("Invalid login");
       }
@@ -300,6 +305,7 @@ function App() {
     setUserName("");
     setEmail("");
     setId(null);
+    setDailyGoal(100);
   }
 
   function postCommunity(post) {
@@ -315,7 +321,7 @@ function App() {
       <div className="min-h-screen bg-gray-50">
         {window.location.pathname !== "/login" &&
           window.location.pathname !== "/register" &&
-          !isLoggingIn(
+          !isLoggingIn && (
             <Navbar isLoggedIn={isLoggedIn} setIsLoggingIn={setIsLoggingIn} />
           )}
         <div className="container mx-auto px-4 py-8">

@@ -50,7 +50,7 @@ function Navbar({ isLoggedIn, setIsLoggingIn }) {
             {!isLoggedIn && (
               <Link to="/login" className="hover:text-green-100">
                 <button
-                  onclick={() => setIsLoggingIn(true)}
+                  onClick={() => setIsLoggingIn(true)}
                   className="w-24 py-2 bg-black text-white rounded-2xl hover:bg-gray-700 hover:cursor-pointer transition-colors flex justify-center items-center"
                 >
                   Login
