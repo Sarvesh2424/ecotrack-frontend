@@ -47,6 +47,7 @@ const Register = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            setIsInvalid(false);
             handleRegister(
               loginFormDetails.name,
               loginFormDetails.email,
