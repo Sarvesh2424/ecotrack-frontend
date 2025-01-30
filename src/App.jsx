@@ -25,6 +25,7 @@ function App() {
   const [change, setChange] = useState(0);
   const [leaderboard, setLeaderboard] = useState(null);
   const [community, setCommunity] = useState(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [carbonData, setCarbonData] = useState({
     labels: [],
     datasets: [
@@ -71,7 +72,9 @@ function App() {
     const fetchDailyGoal = async () => {
       if (id) {
         try {
-          const response = await axios.get(`https://backend-ecotrack-1.onrender.com/goal/${id}`);
+          const response = await axios.get(
+            `https://backend-ecotrack-1.onrender.com/goal/${id}`
+          );
           if (response.data && response.data.length > 0) {
             setDailyGoal(response.data[response.data.length - 1].goal);
           } else {
@@ -134,7 +137,9 @@ function App() {
     const fetchLeaderBoard = async () => {
       if (id) {
         try {
-          const response = await axios.get("https://backend-ecotrack-1.onrender.com/leaderboard");
+          const response = await axios.get(
+            "https://backend-ecotrack-1.onrender.com/leaderboard"
+          );
           if (response.data && response.data.length > 0) {
             setLeaderboard(response.data);
           } else {
@@ -149,7 +154,9 @@ function App() {
     const fetchCommunity = async () => {
       if (id) {
         try {
-          const response = await axios.get("https://backend-ecotrack-1.onrender.com/community");
+          const response = await axios.get(
+            "https://backend-ecotrack-1.onrender.com/community"
+          );
           if (response.data && response.data.length > 0) {
             setCommunity(response.data);
           } else {
@@ -267,10 +274,13 @@ function App() {
 
   async function login(email, password) {
     try {
-      const response = await axios.post("https://backend-ecotrack-1.onrender.com/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://backend-ecotrack-1.onrender.com/login",
+        {
+          email,
+          password,
+        }
+      );
 
       if (response.data && response.data.token) {
         localStorage.setItem("token", response.data.token);
@@ -304,8 +314,9 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
         {window.location.pathname !== "/login" &&
-          window.location.pathname !== "/register" && (
-            <Navbar isLoggedIn={isLoggedIn} />
+          window.location.pathname !== "/register" &&
+          !isLoggingIn(
+            <Navbar isLoggedIn={isLoggedIn} setIsLoggingIn={setIsLoggingIn} />
           )}
         <div className="container mx-auto px-4 py-8">
           <Routes>
