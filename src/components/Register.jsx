@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 
 const Register = () => {
-  const [isInvalid, setIsInvalid] = useState();
+  const [isInvalid, setIsInvalid] = useState(false);
   const [loginFormDetails, setLoginFormDetails] = useState({
     name: "",
     email: "",

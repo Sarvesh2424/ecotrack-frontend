@@ -42,7 +42,7 @@ const Community = ({ community, postCommunity }) => {
                 postCommunity(post);
                 setIsCreating(false);
               }}
-              className="p-2 bg-black rounded-lg text-white mt-4 w-20"
+              className="p-2 bg-black rounded-lg text-white mt-4 w-20 hover:cursor-pointer hover:bg-grey-800"
             >
               Post
             </button>
