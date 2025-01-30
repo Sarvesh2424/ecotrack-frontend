@@ -15,7 +15,7 @@ const Register = () => {
   const handleRegister = async (name, email, password) => {
     try {
       const response = await axios
-        .post("http://127.0.0.1:3000/register", {
+        .post("https://backend-ecotrack-1.onrender.com/register", {
           name,
           email,
           password,
