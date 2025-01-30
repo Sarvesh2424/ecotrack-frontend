@@ -55,6 +55,21 @@ function Dashboard({
                 )}
               </div>
             )}
+            {currectFootPrint > DailyGoal && (
+              <div
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                className="relative"
+              >
+                <div className="flex gap-1 items-center text-red-600"><TrophyIcon className="w-5 h-5 text-red-600 hover:cursor-pointer" />!</div>
+                
+                {showTooltip && (
+                  <div className="absolute bg-red-600 text-white text-sm rounded-md p-1 bottom-6 left-4">
+                    Goal not achieved!
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <p className="text-3xl text-green-600">{currectFootPrint} kg CO2</p>
         </div>
@@ -112,44 +127,44 @@ function Dashboard({
           </p>
         </div>
       </div>
-
-      <div className="bg-white p-6 rounded-3xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Carbon Footprint Trend</h2>
-        <Line data={carbonData} />
-      </div>
-
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Eco Tips</h2>
-        <ul className="space-y-2">
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Use public transportation or bike to reduce emissions
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Switch to LED bulbs to save energy
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Reduce meat consumption and try plant-based alternatives
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Use solar panels or purchase renewable energy credits
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Use reusable bags, bottles, and containers
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Plant trees and support reforestation efforts
-          </li>
-          <li className="flex items-center">
-            <span className="text-green-500 mr-2">•</span>
-            Use energy-efficient devices and enable power-saving settings
-          </li>
-        </ul>
+      <div className="flex justify-around">
+        <div className="bg-white w-4xl p-6 rounded-3xl shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Carbon Footprint Trend</h2>
+          <Line className=" h-36" data={carbonData} />
+        </div>
+        <div className="bg-white p-6 rounded-3xl shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Eco Tips</h2>
+          <ul className="space-y-2">
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Use public transportation or bike to reduce emissions
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Switch to LED bulbs to save energy
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Reduce meat consumption and try plant-based alternatives
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Use solar panels or purchase renewable energy credits
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Use reusable bags, bottles, and containers
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Plant trees and support reforestation efforts
+            </li>
+            <li className="flex items-center">
+              <span className="text-green-500 mr-2">•</span>
+              Use energy-efficient devices and enable power-saving settings
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

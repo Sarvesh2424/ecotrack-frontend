@@ -55,7 +55,7 @@ function Calculator({ updateFootprint }) {
               name="transportation"
               value={formData.transportation}
               onChange={handleChange}
-              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 bg-gray-50 block w-full rounded-md border-b-2 border-black"
             />
           </label>
         </div>
@@ -68,7 +68,7 @@ function Calculator({ updateFootprint }) {
               name="electricity"
               value={formData.electricity}
               onChange={handleChange}
-              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 bg-gray-50 block w-full rounded-md border-b-2 border-black"
             />
           </label>
         </div>
@@ -80,7 +80,7 @@ function Calculator({ updateFootprint }) {
               name="diet"
               value={formData.diet}
               onChange={handleChange}
-              className="mt-1 text-gray-700 p-2 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 bg-gray-50 block w-full rounded-md border-b-2 border-black"
             >
               <option value="mixed">Mixed Diet</option>
               <option value="vegetarian">Vegetarian</option>
@@ -97,7 +97,7 @@ function Calculator({ updateFootprint }) {
               name="waste"
               value={formData.waste}
               onChange={handleChange}
-              className="mt-1 p-2 block w-full text-gray-700 rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 bg-gray-50 block w-full rounded-md border-b-2 border-black"
             />
           </label>
         </div>

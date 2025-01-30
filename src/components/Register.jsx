@@ -66,7 +66,7 @@ const Register = () => {
                   name: e.target.value,
                 })
               }
-              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 block w-full rounded-md bg-gray-50 border-b-2 border-black"
             />
           </label>
           <label className="block text-sm font-medium text-black">
@@ -80,7 +80,7 @@ const Register = () => {
                   email: e.target.value,
                 })
               }
-              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg focus:border-green-500 focus:ring-green-500"
+              className="mt-1 p-2 text-gray-700 block w-full rounded-md bg-gray-50 border-b-2 border-black"
             />
           </label>
           <label className="block text-sm font-medium text-black">
@@ -94,7 +94,7 @@ const Register = () => {
                   password: e.target.value,
                 })
               }
-              className="mt-1 p-2 text-gray-700 block w-full rounded-md border-gray-300 shadow-lg"
+              className="mt-1 p-2 text-gray-700 block w-full rounded-md bg-gray-50 border-b-2 border-black"
             />
           </label>
           {isInvalid && (
@@ -104,9 +104,9 @@ const Register = () => {
           )}
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 hover:cursor-pointer transition-colors"
+            className="w-full flex items-center justify-center gap-2 bg-green-500 text-white py-2 px-4 rounded-xl hover:bg-green-600 hover:cursor-pointer transition-colors"
           >
-            <CheckCircleIcon className="w-5 h-5"/>
+            <CheckCircleIcon className="w-5 h-5" />
             Register
           </button>
         </form>

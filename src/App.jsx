@@ -11,6 +11,7 @@ import History from "./components/History";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { jwtDecode } from "jwt-decode";
+import Community from "./components/Community";
 
 function App() {
   const [id, setId] = useState(null);
@@ -23,6 +24,7 @@ function App() {
   const [DailyGoal, setDailyGoal] = useState(100);
   const [change, setChange] = useState(0);
   const [leaderboard, setLeaderboard] = useState(null);
+  const [community, setCommunity] = useState(null);
   const [carbonData, setCarbonData] = useState({
     labels: [],
     datasets: [
@@ -50,7 +52,7 @@ function App() {
       if (id) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:3000/footprint/${id}`
+            `https://backend-ecotrack-1.onrender.com/footprint/${id}`
           );
           if (response.data && response.data.length > 0) {
             setFootprints(response.data);
@@ -69,7 +71,7 @@ function App() {
     const fetchDailyGoal = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://127.0.0.1:3000/goal/${id}`);
+          const response = await axios.get(`https://backend-ecotrack-1.onrender.com/goal/${id}`);
           if (response.data && response.data.length > 0) {
             setDailyGoal(response.data[response.data.length - 1].goal);
           } else {
@@ -85,7 +87,7 @@ function App() {
       if (id) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:3000/footprint/${id}`
+            `https://backend-ecotrack-1.onrender.com/footprint/${id}`
           );
           if (response.data && response.data.length > 0) {
             const data = response.data.map((item) => item.footPrint);
@@ -116,7 +118,7 @@ function App() {
       if (id) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:3000/reduction/user/${id}`
+            `https://backend-ecotrack-1.onrender.com/reduction/user/${id}`
           );
           if (response.data && response.data.length > 0) {
             setChange(response.data[response.data.length - 1].reduction);
@@ -128,10 +130,11 @@ function App() {
         }
       }
     };
+
     const fetchLeaderBoard = async () => {
       if (id) {
         try {
-          const response = await axios.get("http://127.0.0.1:3000/leaderboard");
+          const response = await axios.get("https://backend-ecotrack-1.onrender.com/leaderboard");
           if (response.data && response.data.length > 0) {
             setLeaderboard(response.data);
           } else {
@@ -143,26 +146,42 @@ function App() {
       }
     };
 
+    const fetchCommunity = async () => {
+      if (id) {
+        try {
+          const response = await axios.get("https://backend-ecotrack-1.onrender.com/community");
+          if (response.data && response.data.length > 0) {
+            setCommunity(response.data);
+          } else {
+            console.error("No data found for community.");
+          }
+        } catch (error) {
+          console.error("Error fetching community data:", error);
+        }
+      }
+    };
+
     fetchData();
     fetchDailyGoal();
     fetchCarbonData();
     fetchReduction();
     fetchLeaderBoard();
-  }, [id]);
+    fetchCommunity();
+  }, [id, isLoggedIn, footprints]);
 
   function updateFootPrint(footPrint) {
     const fid = uuidv4();
     let newChange = 0;
     if (currectFootPrint !== 0) {
       newChange = ((footPrint - currectFootPrint) / currectFootPrint) * 100;
-      axios.post("http://127.0.0.1:3000/reduction", {
+      axios.post("https://backend-ecotrack-1.onrender.com/reduction", {
         userId: id,
         footprintId: fid,
         reduction: newChange.toFixed(2),
       });
       setChange(newChange.toFixed(2));
     }
-    axios.post("http://127.0.0.1:3000/footprint", {
+    axios.post("https://backend-ecotrack-1.onrender.com/footprint", {
       id: fid,
       userId: id,
       date: Date.now(),
@@ -183,7 +202,7 @@ function App() {
   }
 
   function updateDailyGoal(goal) {
-    axios.post("http://127.0.0.1:3000/goal", {
+    axios.post("https://backend-ecotrack-1.onrender.com/goal", {
       userId: id,
       goal,
     });
@@ -191,11 +210,11 @@ function App() {
   }
 
   function deleteFootprint(id) {
-    axios.delete(`http://127.0.0.1:3000/footprint/${id}`);
-    axios.delete(`http://127.0.0.1:3000/reduction/${id}`);
+    axios.delete(`https://backend-ecotrack-1.onrender.com/footprint/${id}`);
+    axios.delete(`https://backend-ecotrack-1.onrender.com/reduction/${id}`);
     const fetchData = async () => {
       const response = await axios
-        .get(`http://127.0.0.1:3000/footprint/${id}`)
+        .get(`https://backend-ecotrack-1.onrender.com/footprint/${id}`)
         .catch(() => {
           console.log("Error fetching data");
         });
@@ -204,7 +223,7 @@ function App() {
     };
     const fetchDailyGoal = async () => {
       const response = await axios
-        .get(`http://127.0.0.1:3000/goal/${id}`)
+        .get(`https://backend-ecotrack-1.onrender.com/goal/${id}`)
         .catch(() => {
           console.log("Error fetching data");
         });
@@ -212,7 +231,7 @@ function App() {
     };
     const fetchCarbonData = async () => {
       const response = await axios
-        .get(`http://127.0.0.1:3000/footprint/${id}`)
+        .get(`https://backend-ecotrack-1.onrender.com/footprint/${id}`)
         .catch(() => {
           console.log("Error fetching data");
         });
@@ -234,7 +253,7 @@ function App() {
     };
     const fetchReduction = async () => {
       const response = await axios
-        .get(`http://127.0.0.1:3000/reduction/user/${id}`)
+        .get(`https://backend-ecotrack-1.onrender.com/reduction/user/${id}`)
         .catch(() => {
           console.log("Error fetching data");
         });
@@ -248,7 +267,7 @@ function App() {
 
   async function login(email, password) {
     try {
-      const response = await axios.post("http://127.0.0.1:3000/login", {
+      const response = await axios.post("https://backend-ecotrack-1.onrender.com/login", {
         email,
         password,
       });
@@ -271,6 +290,14 @@ function App() {
     setUserName("");
     setEmail("");
     setId(null);
+  }
+
+  function postCommunity(post) {
+    axios.post("https://backend-ecotrack-1.onrender.com/community", {
+      userId: id,
+      post,
+      date: Date.now(),
+    });
   }
 
   return (
@@ -325,6 +352,15 @@ function App() {
                 <History
                   footprints={footprints}
                   deleteFootprint={deleteFootprint}
+                />
+              }
+            />
+            <Route
+              path="/community"
+              element={
+                <Community
+                  community={community}
+                  postCommunity={postCommunity}
                 />
               }
             />

@@ -1,7 +1,7 @@
 import Footprint from "./Footprint";
 
 const History = ({ footprints, deleteFootprint }) => {
-  const copy = footprints.reverse();
+  const copy = footprints.slice().reverse();
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 mt-18 mb-6">
