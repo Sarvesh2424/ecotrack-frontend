@@ -61,6 +61,8 @@ function App() {
               response.data[response.data.length - 1].footPrint
             );
           } else {
+            setFootprints([]);
+            setCurrentFootPrint(0.0);
             console.error("No data found for footprints.");
           }
         } catch (error) {
@@ -79,7 +81,7 @@ function App() {
             setDailyGoal(response.data[response.data.length - 1].goal);
             console.log(DailyGoal);
           } else {
-            setDailyGoal(100)
+            setDailyGoal(100);
             console.error("No data found for Daily goal.");
           }
         } catch (error) {
@@ -111,6 +113,17 @@ function App() {
               ],
             });
           } else {
+            setCarbonData({
+              labels: [],
+              datasets: [
+                {
+                  label: "Carbon Footprint (kg CO2)",
+                  data: [],
+                  borderColor: "rgb(75, 192, 192)",
+                  tension: 0.1,
+                },
+              ],
+            });
             console.error("No data found for carbon data.");
           }
         } catch (error) {
@@ -128,6 +141,7 @@ function App() {
           if (response.data && response.data.length > 0) {
             setChange(response.data[response.data.length - 1].reduction);
           } else {
+            setChange(0); 
             console.error("No data found for reduction.");
           }
         } catch (error) {
@@ -176,7 +190,7 @@ function App() {
     fetchReduction();
     fetchLeaderBoard();
     fetchCommunity();
-  }, [id, isLoggedIn, footprints]);
+  }, [id, isLoggedIn, footprints, token]);
 
   function updateFootPrint(footPrint) {
     const fid = uuidv4();
